@@ -4,7 +4,7 @@ import androidx.room.PrimaryKey;
 
 // below line is for setting table name.
 @Entity(tableName = "users_notes")
-public class CourseModal {
+public class NotesModel {
 
     // below line is to auto increment
     // id for each course.
@@ -21,7 +21,7 @@ public class CourseModal {
     // course description.
     private String courseDescription;
 
-    public CourseModal(String courseDescription) {
+    public NotesModel(String courseDescription) {
         this.courseDescription = courseDescription;
     }
 

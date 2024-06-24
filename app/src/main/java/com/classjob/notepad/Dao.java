@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.classjob.notepad.model.CourseModal;
+import com.classjob.notepad.model.NotesModel;
 
 import java.util.List;
 
@@ -18,17 +18,17 @@ public interface Dao {
     // below method is use to
     // add data to database.
     @Insert
-    void insert(CourseModal model);
+    void insert(NotesModel model);
 
     // below method is use to update
     // the data in our database.
     @Update
-    void update(CourseModal model);
+    void update(NotesModel model);
 
     // below line is use to delete a
     // specific course in our database.
     @Delete
-    void delete(CourseModal model);
+    void delete(NotesModel model);
 
     // on below line we are making query to
     // delete all courses from our database.
@@ -39,5 +39,5 @@ public interface Dao {
     // in this we are ordering our courses in ascending order
     // with our course name.
     @Query("SELECT * FROM users_notes ORDER BY id DESC")
-    LiveData<List<CourseModal>> getAllCourses();
+    LiveData<List<NotesModel>> getAllCourses();
 }

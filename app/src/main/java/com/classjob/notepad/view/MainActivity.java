@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.classjob.notepad.model.CourseModal;
-import com.classjob.notepad.CourseRVAdapter;
+import com.classjob.notepad.model.NotesModel;
+import com.classjob.notepad.NotesRVAdapter;
 import com.classjob.notepad.R;
 import com.classjob.notepad.model.ViewModal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         coursesRV.setHasFixedSize(true);
 
         // initializing adapter for recycler view.
-        final CourseRVAdapter adapter = new CourseRVAdapter();
+        final NotesRVAdapter adapter = new NotesRVAdapter();
 
         // setting adapter class for recycler view.
         coursesRV.setAdapter(adapter);
@@ -63,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
         viewmodal = ViewModelProviders.of(this).get(ViewModal.class);
 
         // below line is use to get all the courses from view modal.
-        viewmodal.getAllCourses().observe(this, new Observer<List<CourseModal>>() {
+        viewmodal.getAllCourses().observe(this, new Observer<List<NotesModel>>() {
             @Override
-            public void onChanged(List<CourseModal> models) {
+            public void onChanged(List<NotesModel> models) {
                 // when the data is changed in our models we are
                 // adding that list to our adapter class.
                 adapter.submitList(models);
@@ -88,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 // below line is use to attach this to recycler view.
                         attachToRecyclerView(coursesRV);
         // below line is use to set item click listener for our item of recycler view.
-        adapter.setOnItemClickListener(new CourseRVAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new NotesRVAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(CourseModal model) {
+            public void onItemClick(NotesModel model) {
                 // after clicking on item of recycler view
                 // we are opening a new activity and passing
                 // a data to our activity.
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
             String courseDescription = data.getStringExtra(NewCourseActivity.EXTRA_DESCRIPTION);
 
-            CourseModal model = new CourseModal( courseDescription);
+            NotesModel model = new NotesModel( courseDescription);
             viewmodal.insert(model);
             Toast.makeText(this, "Notes saved", Toast.LENGTH_SHORT).show();
         } else if (requestCode == EDIT_COURSE_REQUEST && resultCode == RESULT_OK) {
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
             String courseDesc = data.getStringExtra(NewCourseActivity.EXTRA_DESCRIPTION);
 
-            CourseModal model = new CourseModal( courseDesc);
+            NotesModel model = new NotesModel( courseDesc);
             model.setId(id);
             viewmodal.update(model);
             Toast.makeText(this, "Notes updated", Toast.LENGTH_SHORT).show();
