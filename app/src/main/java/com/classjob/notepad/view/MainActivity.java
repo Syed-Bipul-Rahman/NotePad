@@ -1,4 +1,5 @@
 package com.classjob.notepad.view;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
             String courseDescription = data.getStringExtra(NewCourseActivity.EXTRA_DESCRIPTION);
 
-            NotesModel model = new NotesModel( courseDescription);
+            NotesModel model = new NotesModel(courseDescription);
             viewmodal.insert(model);
             Toast.makeText(this, "Notes saved", Toast.LENGTH_SHORT).show();
         } else if (requestCode == EDIT_COURSE_REQUEST && resultCode == RESULT_OK) {
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
             String courseDesc = data.getStringExtra(NewCourseActivity.EXTRA_DESCRIPTION);
 
-            NotesModel model = new NotesModel( courseDesc);
+            NotesModel model = new NotesModel(courseDesc);
             model.setId(id);
             viewmodal.update(model);
             Toast.makeText(this, "Notes updated", Toast.LENGTH_SHORT).show();
