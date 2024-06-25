@@ -2,75 +2,63 @@ package com.classjob.notepad.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.classjob.notepad.databinding.ActivityMainBinding;
 import com.classjob.notepad.model.NotesModel;
 import com.classjob.notepad.NotesRVAdapter;
-import com.classjob.notepad.R;
 import com.classjob.notepad.model.ViewModal;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    ActivityMainBinding mBinding;
+
     // creating a variables for our recycler view.
-    private RecyclerView coursesRV;
-    private static final int ADD_COURSE_REQUEST = 1;
-    private static final int EDIT_COURSE_REQUEST = 2;
+    private static final int ADD_NOTES_REQUEST = 1;
+    private static final int EDIT_NOTES_REQUEST = 2;
     private ViewModal viewmodal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        // initializing our variable for our recycler view and fab.
-        coursesRV = findViewById(R.id.idRVCourses);
-        FloatingActionButton fab = findViewById(R.id.idFABAdd);
+        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
 
+        setContentView(mBinding.getRoot());
         // adding on click listener for floating action button.
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // starting a new activity for adding a new course
-                // and passing a constant value in it.
-                Intent intent = new Intent(MainActivity.this, NewCourseActivity.class);
-                startActivityForResult(intent, ADD_COURSE_REQUEST);
-            }
+        mBinding.idFABAdd.setOnClickListener(v -> {
+            // starting a new activity for adding a new course
+            // and passing a constant value in it.
+            Intent intent = new Intent(MainActivity.this, NewNotesActivity.class);
+            startActivityForResult(intent, ADD_NOTES_REQUEST);
         });
 
         // setting layout manager to our adapter class.
-        coursesRV.setLayoutManager(new LinearLayoutManager(this));
-        coursesRV.setHasFixedSize(true);
+        mBinding.idRVNotes.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.idRVNotes.setHasFixedSize(true);
 
         // initializing adapter for recycler view.
         final NotesRVAdapter adapter = new NotesRVAdapter();
 
         // setting adapter class for recycler view.
-        coursesRV.setAdapter(adapter);
+        mBinding.idRVNotes.setAdapter(adapter);
 
         // passing a data from view modal.
         viewmodal = ViewModelProviders.of(this).get(ViewModal.class);
 
         // below line is use to get all the courses from view modal.
-        viewmodal.getAllCourses().observe(this, new Observer<List<NotesModel>>() {
-            @Override
-            public void onChanged(List<NotesModel> models) {
-                // when the data is changed in our models we are
-                // adding that list to our adapter class.
-                adapter.submitList(models);
-            }
+        viewmodal.getAllCourses().observe(this, models -> {
+            // when the data is changed in our models we are
+            // adding that list to our adapter class.
+            adapter.submitList(models);
         });
         // below method is use to add swipe to delete method for item of recycler view.
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -87,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }).
                 // below line is use to attach this to recycler view.
-                        attachToRecyclerView(coursesRV);
+                        attachToRecyclerView( mBinding.idRVNotes);
         // below line is use to set item click listener for our item of recycler view.
         adapter.setOnItemClickListener(new NotesRVAdapter.OnItemClickListener() {
             @Override
@@ -95,14 +83,14 @@ public class MainActivity extends AppCompatActivity {
                 // after clicking on item of recycler view
                 // we are opening a new activity and passing
                 // a data to our activity.
-                Intent intent = new Intent(MainActivity.this, NewCourseActivity.class);
-                intent.putExtra(NewCourseActivity.EXTRA_ID, model.getId());
+                Intent intent = new Intent(MainActivity.this, NewNotesActivity.class);
+                intent.putExtra(NewNotesActivity.EXTRA_ID, model.getId());
 
-                intent.putExtra(NewCourseActivity.EXTRA_DESCRIPTION, model.getCourseDescription());
+                intent.putExtra(NewNotesActivity.EXTRA_DESCRIPTION, model.getCourseDescription());
 
                 // below line is to start a new activity and
                 // adding a edit course constant.
-                startActivityForResult(intent, EDIT_COURSE_REQUEST);
+                startActivityForResult(intent, EDIT_NOTES_REQUEST);
             }
         });
     }
@@ -110,21 +98,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_COURSE_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == ADD_NOTES_REQUEST && resultCode == RESULT_OK) {
 
-            String courseDescription = data.getStringExtra(NewCourseActivity.EXTRA_DESCRIPTION);
+            String courseDescription = data.getStringExtra(NewNotesActivity.EXTRA_DESCRIPTION);
 
             NotesModel model = new NotesModel(courseDescription);
             viewmodal.insert(model);
             Toast.makeText(this, "Notes saved", Toast.LENGTH_SHORT).show();
-        } else if (requestCode == EDIT_COURSE_REQUEST && resultCode == RESULT_OK) {
-            int id = data.getIntExtra(NewCourseActivity.EXTRA_ID, -1);
+        } else if (requestCode == EDIT_NOTES_REQUEST && resultCode == RESULT_OK) {
+            int id = data.getIntExtra(NewNotesActivity.EXTRA_ID, -1);
             if (id == -1) {
                 Toast.makeText(this, "Notes can't be updated", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            String courseDesc = data.getStringExtra(NewCourseActivity.EXTRA_DESCRIPTION);
+            String courseDesc = data.getStringExtra(NewNotesActivity.EXTRA_DESCRIPTION);
 
             NotesModel model = new NotesModel(courseDesc);
             model.setId(id);
