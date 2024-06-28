@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.classjob.notepad.databinding.ActivityMainBinding;
+//import com.classjob.notepad.databinding.ActivityMainBinding;
+import com.bipulsoft.notepad.databinding.ActivityMainBinding;
 import com.classjob.notepad.model.NotesModel;
 import com.classjob.notepad.NotesRVAdapter;
 import com.classjob.notepad.model.ViewModal;

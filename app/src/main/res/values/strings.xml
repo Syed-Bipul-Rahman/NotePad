@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Notepad</string>
+    <string name="app_name">Mini Notepad</string>
     <string name="notes_cannot_be_empty">Notes cannot be empty</string>
 </resources>

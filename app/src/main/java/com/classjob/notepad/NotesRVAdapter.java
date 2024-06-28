@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bipulsoft.notepad.R;
 import com.classjob.notepad.model.NotesModel;
 
 public class NotesRVAdapter extends ListAdapter<NotesModel, NotesRVAdapter.ViewHolder> {

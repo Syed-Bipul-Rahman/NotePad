@@ -9,8 +9,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.classjob.notepad.R;
-import com.classjob.notepad.databinding.ActivityNewNotesBinding;
+import com.bipulsoft.notepad.R;
+import com.bipulsoft.notepad.databinding.ActivityNewNotesBinding;
+//
+//import com.classjob.notepad.R;
+//import com.classjob.notepad.databinding.ActivityNewNotesBinding;
 
 public class NewNotesActivity extends AppCompatActivity {
     ActivityNewNotesBinding mBinding;
